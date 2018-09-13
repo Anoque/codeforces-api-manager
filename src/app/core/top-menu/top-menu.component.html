@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <ul>
+    <li *ngFor="let item of links">
+      <a [routerLink]="item.link">
+        <button mat-raised-button color="primary">
+          <i *ngIf="item.icon" class="material-icons md-24">{{ item.icon }}</i>
+          {{ item.name }}
+        </button>
+      </a>
+    </li>
+  </ul>
+</mat-toolbar>

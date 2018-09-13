@@ -1,0 +1,29 @@
+<mat-card class="user-info-wrapper" *ngIf="data && !showLoader">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>{{ data.handle }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <img [src]="data.avatar" alt="">
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button (click)="getStatus()">Get status info</button>
+    <button mat-button (click)="openSnackBar('Good evening! How do you do?', 'I\'m fine')" aria-label="Show an example snack-bar">Show message</button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card *ngIf="showStatus">
+  <mat-grid-list cols="4" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let item of status">
+      <app-user-status [data]="item"></app-user-status>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div>
+
+  </div>
+</mat-card>
+
+<div class="loader" *ngIf="showLoader">
+  <mat-spinner></mat-spinner>
+</div>

@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <form [formGroup]="form" (submit)="onSubmit()" (reset)="onReset()">
+      <mat-form-field class="example-form-field">
+        <input matInput type="text" placeholder="Name" formControlName="value">
+      </mat-form-field>
+      <br>
+      <button type="submit" mat-flat-button>Search</button>
+      <button type="reset" mat-flat-button [color]="'warn'">Clear</button>
+    </form>
+  </mat-card-header>
+</mat-card>

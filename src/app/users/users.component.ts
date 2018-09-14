@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NetService } from '../core/net.service';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
-import {UsersService} from './users.service';
+import { NetResponse, NetService } from '../core/net.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-users',
@@ -26,9 +26,9 @@ export class UsersComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.netService.get('http://codeforces.com/api/user.info?handles=' + this.form.get('value').value).subscribe(res => {
-      if (typeof res.status !== 'undefined' && res.status === 'OK') {
-        this.usersService.setUser(res.result[0]);
+    this.netService.get('http://codeforces.com/api/user.info?handles=' + this.form.get('value').value).subscribe((res: NetResponse) => {
+      if (res.isSuccess()) {
+        this.usersService.setUser(res.getResponse()[0]);
         this.router.navigate(['users/info/' + this.form.get('value').value]);
       }
     });

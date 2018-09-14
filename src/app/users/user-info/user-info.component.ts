@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NetService } from '../../core/net.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import {NetResponse, NetService} from '../../core/net.service';
+import { MatDialog, MatSnackBar, MatTabChangeEvent } from '@angular/material';
 import { Chart } from 'chart.js';
 import { UsersService } from '../users.service';
 import { UserStatisticsComponent } from '../user-statistics/user-statistics.component';
@@ -40,18 +40,19 @@ export class UserInfoComponent implements OnInit {
   }
 
   getUserInfo(): void {
-    this.netService.get('http://codeforces.com/api/user.info?handles=' + this.name).subscribe(res => {
-      if (typeof res.status !== 'undefined' && res.status === 'OK') {
-        this.data = res.result[0];
-        this.usersService.setUser(res.result[0]);
+    this.netService.get('http://codeforces.com/api/user.info?handles=' + this.name).subscribe((res: NetResponse) => {
+      console.log(res);
+      if (res.isSuccess()) {
+        this.data = res.getResponse()[0];
+        this.usersService.setUser(this.data);
       }
     });
   }
 
   getStatus() {
-    this.netService.get('http://codeforces.com/api/user.status?handle=' + this.name).subscribe(res => {
-      if (typeof res.status !== 'undefined' && res.status === 'OK') {
-        this.status = res.result;
+    this.netService.get('http://codeforces.com/api/user.status?handle=' + this.name).subscribe((res: NetResponse) => {
+      if (res.isSuccess()) {
+        this.status = res.getResponse();
         this.showStatus = true;
         this.usersService.setStatus(this.status);
       }
@@ -75,6 +76,15 @@ export class UserInfoComponent implements OnInit {
       console.log(result);
     });
     */
+  }
+
+  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+    // console.log('index => ', tabChangeEvent.index);
+    if (tabChangeEvent.index === 1) {
+      this.netService.get('http://codeforces.com/api/user.rating?handle=' + this.name).subscribe((res: NetResponse) => {
+        console.log(res);
+      });
+    }
   }
 
 }

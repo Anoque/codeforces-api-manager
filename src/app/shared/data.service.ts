@@ -42,8 +42,8 @@ export class DataService {
   getContestList() {
     this.netService.get('http://codeforces.com/api/contest.list').subscribe(res => {
       this.contestList.status.initialized.next(true);
-      if (typeof res.status !== 'undefined' && res.status === 'OK') {
-        this.contestList.data = res.result;
+      if (res.isSuccess()) {
+        this.contestList.data = res.getResponse();
         this.contestList.status.loaded.next(true);
       } else {
         this.contestList.status.loaded.next(false);

@@ -2,6 +2,13 @@
   <h2>Contest</h2>
 </mat-card>
 <div *ngIf="data.length > 0 && !showLoader">
+  <mat-paginator
+    class="pagination"
+    [length]="dataSource.data.length"
+    [pageSize]="itemsLength"
+    [pageSizeOptions]="[10, 50, 100]"
+    (page)="pageEvent = setPage($event)">
+  </mat-paginator>
   <table mat-table [dataSource]="data" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> No. </th>

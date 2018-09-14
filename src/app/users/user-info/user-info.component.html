@@ -9,12 +9,14 @@
   </mat-card-header>
   <mat-card-content>
     <div class="content">
-      <div>
-        <img [src]="data.avatar" alt="">
-      </div>
-      <div>
-        <span>Friends: {{ data.friendOfCount }}</span>
-      </div>
+      <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
+        <mat-tab label="Info">
+          <img [src]="data.avatar" alt="">
+        </mat-tab>
+        <mat-tab label="Friends">
+          <span>Friends: {{ data.friendOfCount }}</span>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </mat-card-content>
   <mat-card-actions id="user-info-actions">
@@ -29,8 +31,14 @@
   </mat-card-actions>
 </mat-card>
 
-<div class="user-status-items">
-  <div *ngFor="let item of status">
+<div *ngIf="showStatus" class="user-status-items">
+  <mat-paginator
+    class="pagination"
+    [length]="status.length"
+    [pageSize]="12"
+    (page)="pageEvent = setPage($event)">
+  </mat-paginator>
+  <div *ngFor="let item of statusPage">
     <app-user-status [data]="item"></app-user-status>
   </div>
 </div>

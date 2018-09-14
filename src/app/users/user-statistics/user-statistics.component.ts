@@ -179,7 +179,7 @@ export class UserStatisticsComponent implements OnInit {
     const chartLabels = [];
 
     for (const item of this.userService.status) {
-      if (item.verdict == 'OK') {
+      if (item.verdict === 'OK') {
         const index = chartLabels.indexOf(item.programmingLanguage);
         if (index === -1) {
           chartLabels.push(item.programmingLanguage);

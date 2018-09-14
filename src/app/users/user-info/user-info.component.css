@@ -1,5 +1,10 @@
 .content {
   display: flex;
+  min-height: 200px;
+}
+
+.content > div:not(:last-child) {
+  margin-right: 10px;
 }
 
 .user-info-wrapper {
@@ -20,10 +25,10 @@
   align-items: center;
 }
 
-#user-info-actions > div > button {
+#user-info-actions > div > button:not(:last-child) {
   margin-right: 5px;
 }
 
-#user-info-actions > div > button:last-child {
-  margin-right: 0;
+.pagination {
+  width: 100%;
 }

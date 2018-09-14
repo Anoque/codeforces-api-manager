@@ -1,3 +1,6 @@
+<mat-card>
+  <h2>User info</h2>
+</mat-card>
 <mat-card class="user-info-wrapper" *ngIf="data && !showLoader">
   <mat-card-header>
     <mat-card-title>
@@ -5,24 +8,32 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <img [src]="data.avatar" alt="">
+    <div class="content">
+      <div>
+        <img [src]="data.avatar" alt="">
+      </div>
+      <div>
+        <span>Friends: {{ data.friendOfCount }}</span>
+      </div>
+    </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-flat-button (click)="getStatus()">Get status info</button>
-    <button mat-button (click)="openSnackBar('Good evening! How do you do?', 'I\'m fine')" aria-label="Show an example snack-bar">Show message</button>
+  <mat-card-actions id="user-info-actions">
+    <div>
+      <button mat-flat-button (click)="getStatus()">Get status info</button>
+      <button mat-button (click)="openSnackBar('Good evening! How do you do?', 'I\'m fine')" aria-label="Show an example snack-bar">Show message</button>
+    </div>
+    <div>
+      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('type')">Solved tasks by type</button>
+      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('language')">Solved tasks by programming language</button>
+    </div>
   </mat-card-actions>
 </mat-card>
 
-<mat-card *ngIf="showStatus">
-  <mat-grid-list cols="4" rowHeight="2:1">
-    <mat-grid-tile *ngFor="let item of status">
-      <app-user-status [data]="item"></app-user-status>
-    </mat-grid-tile>
-  </mat-grid-list>
-  <div>
-
+<div class="user-status-items">
+  <div *ngFor="let item of status">
+    <app-user-status [data]="item"></app-user-status>
   </div>
-</mat-card>
+</div>
 
 <div class="loader" *ngIf="showLoader">
   <mat-spinner></mat-spinner>

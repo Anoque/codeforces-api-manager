@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NetService } from '../../core/net.service';
-import { MatSnackBar } from '@angular/material';
-import {UsersService} from '../users.service';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Chart } from 'chart.js';
+import { UsersService } from '../users.service';
+import { UserStatisticsComponent } from '../user-statistics/user-statistics.component';
 
 @Component({
   selector: 'app-user-info',
@@ -18,7 +20,8 @@ export class UserInfoComponent implements OnInit {
   showStatus = false;
   subscribers: Subscription;
 
-  constructor(private netService: NetService, private route: ActivatedRoute, public snackBar: MatSnackBar, private usersService: UsersService) {
+  constructor(private netService: NetService, private route: ActivatedRoute, public snackBar: MatSnackBar, private usersService: UsersService,
+              public dialog: MatDialog) {
     this.name = '';
     this.subscribers = new Subscription();
   }
@@ -50,14 +53,28 @@ export class UserInfoComponent implements OnInit {
       if (typeof res.status !== 'undefined' && res.status === 'OK') {
         this.status = res.result;
         this.showStatus = true;
+        this.usersService.setStatus(this.status);
       }
     });
   }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 10000,
     });
+  }
+
+  openDialog(type: string): void {
+    const dialogRef = this.dialog.open(UserStatisticsComponent, {
+      data: { type: type },
+      width : '460px'
+    });
+
+    /*
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+    */
   }
 
 }

@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatInputModule,
       MatIconModule,
       MatDialogModule,
-      MatBadgeModule
+      MatBadgeModule,
+      MatTabsModule
     ],
     exports: [
       MatButtonModule,
@@ -39,7 +41,8 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatInputModule,
       MatIconModule,
       MatDialogModule,
-      MatBadgeModule
+      MatBadgeModule,
+      MatTabsModule
     ]
 })
 

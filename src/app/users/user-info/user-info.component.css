@@ -28,3 +28,7 @@
 #user-info-actions > div > button:not(:last-child) {
   margin-right: 5px;
 }
+
+.pagination {
+  width: 100%;
+}

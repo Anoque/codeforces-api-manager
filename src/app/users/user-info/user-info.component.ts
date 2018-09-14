@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import {NetResponse, NetService} from '../../core/net.service';
-import { MatDialog, MatSnackBar, MatTabChangeEvent } from '@angular/material';
+import {MatDialog, MatSnackBar, MatTabChangeEvent, PageEvent} from '@angular/material';
 import { Chart } from 'chart.js';
 import { UsersService } from '../users.service';
 import { UserStatisticsComponent } from '../user-statistics/user-statistics.component';
@@ -15,15 +15,20 @@ import { UserStatisticsComponent } from '../user-statistics/user-statistics.comp
 export class UserInfoComponent implements OnInit {
   name: string;
   data: any;
-  status: any;
+  status: any[];
   showLoader = true;
   showStatus = false;
   subscribers: Subscription;
+  pageEvent: PageEvent;
+  statusPage: any[];
+  itemsLength = 12;
 
-  constructor(private netService: NetService, private route: ActivatedRoute, public snackBar: MatSnackBar, private usersService: UsersService,
+  constructor(private netService: NetService, private route: ActivatedRoute, public snackBar: MatSnackBar, public usersService: UsersService,
               public dialog: MatDialog) {
     this.name = '';
     this.subscribers = new Subscription();
+    this.status = [];
+    this.statusPage = [];
   }
 
   ngOnInit() {
@@ -55,6 +60,11 @@ export class UserInfoComponent implements OnInit {
         this.status = res.getResponse();
         this.showStatus = true;
         this.usersService.setStatus(this.status);
+        if (this.status.length <= this.itemsLength) {
+          this.statusPage = this.status;
+        } else {
+          this.statusPage = this.status.slice(0, this.itemsLength);
+        }
       }
     });
   }
@@ -81,10 +91,17 @@ export class UserInfoComponent implements OnInit {
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
     // console.log('index => ', tabChangeEvent.index);
     if (tabChangeEvent.index === 1) {
-      this.netService.get('http://codeforces.com/api/user.rating?handle=' + this.name).subscribe((res: NetResponse) => {
+      /*this.netService.get('http://codeforces.com/api/user.rating?handle=' + this.name).subscribe((res: NetResponse) => {
         console.log(res);
-      });
+      });*/
     }
+  }
+
+  setPage(event) {
+    console.log(event);
+    const start = event.pageIndex * this.itemsLength;
+    const end = (start + this.itemsLength < this.status.length) ? start + this.itemsLength : (this.status.length + 1);
+    this.statusPage = this.status.slice(start, end);
   }
 
 }

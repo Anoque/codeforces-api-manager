@@ -31,8 +31,14 @@
   </mat-card-actions>
 </mat-card>
 
-<div class="user-status-items">
-  <div *ngFor="let item of status">
+<div *ngIf="showStatus" class="user-status-items">
+  <mat-paginator
+    class="pagination"
+    [length]="status.length"
+    [pageSize]="12"
+    (page)="pageEvent = setPage($event)">
+  </mat-paginator>
+  <div *ngFor="let item of statusPage">
     <app-user-status [data]="item"></app-user-status>
   </div>
 </div>

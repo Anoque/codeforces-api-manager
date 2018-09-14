@@ -43,7 +43,7 @@ export class DataService {
     this.netService.get('http://codeforces.com/api/contest.list').subscribe(res => {
       this.contestList.status.initialized.next(true);
       if (res.isSuccess()) {
-        this.contestList.data = res.getResponse()[0];
+        this.contestList.data = res.getResponse();
         this.contestList.status.loaded.next(true);
       } else {
         this.contestList.status.loaded.next(false);

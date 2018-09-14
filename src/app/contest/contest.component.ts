@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {NetService} from '../core/net.service';
-
-export interface ContestElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { NetService } from '../core/net.service';
+import { ContestList, DataService } from '../shared/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contest',
@@ -14,32 +9,31 @@ export interface ContestElement {
   styleUrls: ['./contest.component.css']
 })
 export class ContestComponent implements OnInit {
-  showLoader: boolean = true;
+  showLoader = true;
   data: any[];
   displayedColumns: string[];
+  dataSource: ContestList;
+  subscribers: Subscription;
 
-  constructor(private netService: NetService) {
+  constructor(private netService: NetService, private dataService: DataService) {
     this.displayedColumns = ['id', 'name', 'phase', 'type'];
     this.data = [];
+    this.subscribers = new Subscription();
+    this.dataSource = this.dataService.contestList;
   }
 
   ngOnInit() {
-    this.netService.get('http://codeforces.com/api/contest.list').subscribe(res => {
-      if (typeof res.status !== 'undefined' && res.status === 'OK') {
-        this.data = res.result;
+    this.subscribers.add(this.dataSource.status.loaded.subscribe(value => {
+      if (value) {
+        this.data = this.dataSource.data;
+        this.showLoader = false;
       }
-      this.showLoader = false;
-      /*
-      durationSeconds:7200
-      frozen:false
-      id:1032
-      name:"Технокубок 2018 - Отборочный Раунд 3"
-      phase:"BEFORE"
-      relativeTimeSeconds:-5786312
-      startTimeSeconds:1542557100
-      type:"CF"
-       */
-    });
+    }));
+    this.loadData();
+  }
+
+  loadData() {
+    this.dataService.getContestList();
   }
 
 }

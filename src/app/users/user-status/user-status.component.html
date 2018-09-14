@@ -1,18 +1,28 @@
-<mat-card id="user-status-wrapper">
-  <mat-card-header>
+<mat-card class="user-status-wrapper">
+  <mat-card-header class="user-status-header">
+    <span>
+      {{ data.id }}
+    </span>
     <span>
       <b>{{ data.problem.name }}</b>
     </span>
     <span>
       {{ data.problem.contestId + data.problem.index }}
     </span>
+    <span><mat-chip [color]="(data.verdict == 'OK') ? 'primary' : 'warn'" selected>{{ data.verdict }}</mat-chip></span>
   </mat-card-header>
-  <mat-card-content>
-    {{ data.verdict }}
+  <hr>
+  <mat-card-content class="user-status-content">
+    <span>
+      Time consumed: {{ data.timeConsumedMillis }}
+    </span>
+    <span *ngIf="data.verdict != 'OK'">Passed test count: {{ data.passedTestCount }}</span>
   </mat-card-content>
-  <mat-card-actions>
+  <hr>
+  <mat-card-actions class="user-status-actions">
+    <mat-chip selected>{{ data.programmingLanguage }}</mat-chip>
     <mat-chip-list>
-      <mat-chip color="primary" selected *ngFor="let item of data.problem.tags">
+      <mat-chip *ngFor="let item of data.problem.tags">
         {{ item }}
       </mat-chip>
     </mat-chip-list>

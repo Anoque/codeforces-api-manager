@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Solved tasks by type</h2>
+<mat-dialog-content>
+  <div *ngIf="showErrorMessage">
+    Error
+  </div>
+
+  <div *ngIf="chartsData[0]" class="pie-items-statistic">
+    <div *ngFor="let item of objectKeys(chartsData[0])">
+      <span>{{ item }}: {{ chartsData[0][item]}}</span><br>
+    </div>
+  </div>
+
+  <div id="statistics" [style.height]="chartHeight + 'px'">
+    <div class="pie-item">
+      <canvas id="chart" width="400" height="400">{{ chart }}</canvas>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

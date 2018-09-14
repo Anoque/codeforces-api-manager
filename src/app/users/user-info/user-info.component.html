@@ -9,12 +9,14 @@
   </mat-card-header>
   <mat-card-content>
     <div class="content">
-      <div>
-        <img [src]="data.avatar" alt="">
-      </div>
-      <div>
-        <span>Friends: {{ data.friendOfCount }}</span>
-      </div>
+      <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
+        <mat-tab label="Info">
+          <img [src]="data.avatar" alt="">
+        </mat-tab>
+        <mat-tab label="Friends">
+          <span>Friends: {{ data.friendOfCount }}</span>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </mat-card-content>
   <mat-card-actions id="user-info-actions">

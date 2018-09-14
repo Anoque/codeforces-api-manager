@@ -1,0 +1,30 @@
+#user-statistics-wrapper {
+  width: 100%;
+  height: 80vh;
+  overflow-y: auto;
+}
+
+#chart {
+  width: 400px;
+  height: 400px;
+}
+
+#statistics {
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+
+.pie-item {
+  width: 400px;
+}
+
+.pie-items-statistic {
+  font-size: 1.2em;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pie-items-statistic span {
+  padding-right: 10px;
+}

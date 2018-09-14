@@ -5,8 +5,9 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { UserStatusComponent } from './user-status/user-status.component';
 import { UsersComponent } from './users.component';
 import { MaterialModule } from '../core/material.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UsersService} from './users.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsersService } from './users.service';
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,9 @@ import {UsersService} from './users.service';
         UsersComponent,
         UserInfoComponent,
         UserStatusComponent,
+        UserStatisticsComponent,
     ],
-    providers: [UsersService]
+    providers: [UsersService],
+    entryComponents: [UserStatisticsComponent]
 })
 export class UsersModule { }

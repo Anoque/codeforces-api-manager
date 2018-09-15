@@ -16,8 +16,12 @@ export class UserInfoComponent implements OnInit {
   name: string;
   data: any;
   status: any[];
+  rating: any[];
+  blog: any[];
   showLoader = true;
   showStatus = false;
+  showContests = false;
+  showBlog = false;
   subscribers: Subscription;
   pageEvent: PageEvent;
   statusPage: any[];
@@ -29,6 +33,8 @@ export class UserInfoComponent implements OnInit {
     this.subscribers = new Subscription();
     this.status = [];
     this.statusPage = [];
+    this.rating = [];
+    this.blog = [];
   }
 
   ngOnInit() {
@@ -89,16 +95,38 @@ export class UserInfoComponent implements OnInit {
   }
 
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-    // console.log('index => ', tabChangeEvent.index);
-    if (tabChangeEvent.index === 1) {
-      /*this.netService.get('http://codeforces.com/api/user.rating?handle=' + this.name).subscribe((res: NetResponse) => {
-        console.log(res);
-      });*/
+    if (tabChangeEvent.index === 2) {
+      this.netService.get('http://codeforces.com/api/user.rating?handle=' + this.name).subscribe((res: NetResponse) => {
+        // console.log(res);
+        if (res.isSuccess() && this.rating.length === 0) {
+          this.rating = res.getResponse();
+          this.showContests = true;
+
+          if (this.rating.length > 0) {
+            for (let i = 0; i < this.rating.length; i++) {
+              this.rating[i].title = this.rating[i].contestName.replace(/(<br>|<\/br>)/g, '');
+            }
+          }
+        }
+      });
+    } else if (tabChangeEvent.index === 3) {
+      this.netService.get('http://codeforces.com/api/user.blogEntries?handle=' + this.name).subscribe((res: NetResponse) => {
+        // console.log(res);
+        if (res.isSuccess() && this.blog.length === 0) {
+          this.blog = res.getResponse();
+          this.showBlog = true;
+
+          if (this.blog.length > 0) {
+            for (let i = 0; i < this.blog.length; i++) {
+              this.blog[i].title = this.blog[i].title.replace(/(<p>|<\/p>|<br>|<\/br>)/g, '');
+            }
+          }
+        }
+      });
     }
   }
 
   setPage(event) {
-    console.log(event);
     const start = event.pageIndex * this.itemsLength;
     const end = (start + this.itemsLength < this.status.length) ? start + this.itemsLength : (this.status.length + 1);
     this.statusPage = this.status.slice(start, end);

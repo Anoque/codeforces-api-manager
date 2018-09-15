@@ -11,10 +11,67 @@
     <div class="content">
       <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Info">
-          <img [src]="data.avatar" alt="">
+          <div class="user-info-tab">
+            <section>
+              <img [src]="data.avatar" alt="">
+            </section>
+            <section>
+              <span *ngIf="data.firstName">Name: {{ data.firstName }} {{ data.lastName }}</span>
+              <span *ngIf="data.country">Country: {{ data.country }}</span>
+              <span *ngIf="data.city">City: {{ data.city }}</span>
+              <span *ngIf="data.organization">Organization: {{ data.organization }}</span>
+              <span *ngIf="data.rating">Rating: {{ data.rating }}</span>
+              <span *ngIf="data.maxRating">Max rating: {{ data.maxRating }}</span>
+              <span *ngIf="data.rank">Rank: {{ data.rank }}</span>
+              <span *ngIf="data.maxRank">Max rank: {{ data.maxRank }}</span>
+            </section>
+          </div>
         </mat-tab>
         <mat-tab label="Friends">
           <span>Friends: {{ data.friendOfCount }}</span>
+        </mat-tab>
+        <mat-tab label="Contests">
+          <section *ngIf="showContests">
+            <mat-list *ngIf="rating.length > 0">
+              <mat-list-item *ngFor="let item of rating; let i = index;">
+                <div class="rating-item">
+                  <span>
+                    {{ i }}. Name:
+                    <a href="http://codeforces.com/contest/{{ item.contestId }}" target="_blank">
+                      {{ item.contestName }}
+                    </a>
+                  </span>
+                  <span>Rank: {{ item.rank }}</span>
+                </div>
+              </mat-list-item>
+            </mat-list>
+            <div *ngIf="rating.length == 0">
+              No contests
+            </div>
+          </section>
+          <section *ngIf="!showContests">
+            <mat-spinner></mat-spinner>
+          </section>
+        </mat-tab>
+        <mat-tab label="Blog">
+          <section *ngIf="showBlog">
+            <mat-list *ngIf="blog.length > 0">
+              <mat-list-item *ngFor="let item of blog; let i = index;">
+                <div>
+                  <span>
+                    {{ i }}.
+                    <a href="http://codeforces.com/blog/entry/{{ item.id }}" target="_blank">{{ item.title }}</a>
+                  </span>
+                </div>
+              </mat-list-item>
+            </mat-list>
+            <div *ngIf="blog.length == 0">
+              No blog
+            </div>
+          </section>
+          <section *ngIf="!showBlog">
+            <mat-spinner></mat-spinner>
+          </section>
         </mat-tab>
       </mat-tab-group>
     </div>

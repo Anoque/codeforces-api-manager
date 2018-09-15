@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       MatDialogModule,
       MatBadgeModule,
       MatTabsModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatListModule
     ],
     exports: [
       MatButtonModule,
@@ -45,7 +47,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       MatDialogModule,
       MatBadgeModule,
       MatTabsModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatListModule
     ]
 })
 

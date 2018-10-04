@@ -11,9 +11,18 @@
   </li>
 </ul>-->
 <div id="container">
-  <div role="heading">
+  <header id="header" role="heading">
     <app-top-menu></app-top-menu>
+  </header>
+  <main id="content">
     <router-outlet></router-outlet>
-  </div>
+  </main>
+  <footer id="footer">
+    <section></section>
+    <section id="version-info">
+      <span>Current version: 0.2</span>
+    </section>
+    <section></section>
+  </footer>
 </div>
 

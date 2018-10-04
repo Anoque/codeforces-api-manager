@@ -26,6 +26,7 @@ export class UserInfoComponent implements OnInit {
   pageEvent: PageEvent;
   statusPage: any[];
   itemsLength = 12;
+  displayedStatusColumns: any[];
 
   constructor(private netService: NetService, private route: ActivatedRoute, public snackBar: MatSnackBar, public usersService: UsersService,
               public dialog: MatDialog) {
@@ -35,6 +36,7 @@ export class UserInfoComponent implements OnInit {
     this.statusPage = [];
     this.rating = [];
     this.blog = [];
+    this.displayedStatusColumns = ['id', 'name', 'index', 'language', 'attempts', 'verdict', 'tags'];
   }
 
   ngOnInit() {
@@ -46,13 +48,14 @@ export class UserInfoComponent implements OnInit {
       } else {
         this.getUserInfo();
       }
+
       this.showLoader = false;
     }));
   }
 
   getUserInfo(): void {
     this.netService.get('http://codeforces.com/api/user.info?handles=' + this.name).subscribe((res: NetResponse) => {
-      console.log(res);
+
       if (res.isSuccess()) {
         this.data = res.getResponse()[0];
         this.usersService.setUser(this.data);
@@ -65,12 +68,14 @@ export class UserInfoComponent implements OnInit {
       if (res.isSuccess()) {
         this.status = res.getResponse();
         this.showStatus = true;
+        this.packRatingData();
         this.usersService.setStatus(this.status);
         if (this.status.length <= this.itemsLength) {
           this.statusPage = this.status;
         } else {
           this.statusPage = this.status.slice(0, this.itemsLength);
         }
+        console.log(this.statusPage);
       }
     });
   }
@@ -130,6 +135,24 @@ export class UserInfoComponent implements OnInit {
     const start = event.pageIndex * this.itemsLength;
     const end = (start + this.itemsLength < this.status.length) ? start + this.itemsLength : (this.status.length + 1);
     this.statusPage = this.status.slice(start, end);
+  }
+
+  packRatingData() {
+    const temp = [];
+    this.status.forEach(value => {
+      const id = temp.map((id) => { return id.problem.contestId; }).indexOf(value.problem.contestId);
+      if (id !== -1) {
+        if (temp[id]['problem']['index'] === value.problem.index) {
+          temp[id]['decided'] = (value.verdict === 'OK');
+          temp[id]['attempts'].push(value);
+        }
+      } else {
+        value['decided'] = (value.verdict === 'OK');
+        value['attempts'] = [];
+        temp.push(value);
+      }
+    });
+    this.status = temp;
   }
 
 }

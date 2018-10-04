@@ -95,9 +95,99 @@
     [pageSize]="12"
     (page)="pageEvent = setPage($event)">
   </mat-paginator>
-  <div *ngFor="let item of statusPage">
+  <!--<div *ngFor="let item of statusPage">
     <app-user-status [data]="item"></app-user-status>
-  </div>
+  </div>-->
+
+  <table mat-table [dataSource]="statusPage" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{ element.problem.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef> Contest id (index) </th>
+      <td mat-cell *matCellDef="let element"> {{ element.problem.contestId + element.problem.index }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="attempts">
+      <th mat-header-cell *matHeaderCellDef> Attempts </th>
+      <td mat-cell *matCellDef="let element"> {{ element.attempts.length + 1 }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="verdict">
+      <th mat-header-cell *matHeaderCellDef> Verdict </th>
+      <td mat-cell *matCellDef="let element"> {{ element.verdict }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="language">
+      <th mat-header-cell *matHeaderCellDef> Language </th>
+      <td mat-cell *matCellDef="let element"> {{ element.programmingLanguage }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tags">
+      <th mat-header-cell *matHeaderCellDef> Tags </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip-list>
+          <mat-chip *ngFor="let item of element.problem.tags">{{ item }}</mat-chip>
+        </mat-chip-list>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedStatusColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedStatusColumns;"></tr>
+  </table>
+
+  <mat-accordion>
+
+    <!--<div *ngFor="let item of statusPage">
+      <app-user-status [data]="item"></app-user-status>
+    </div>-->
+    <!--<mat-expansion-panel *ngFor="let values of statusPage">
+      <mat-expansion-panel-header class="expansion-header">
+        <mat-panel-title>
+          {{ values.problem.name }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ values.problem.contestId + values.problem.index }}
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <section>
+        Time consumed: {{ values.timeConsumedMillis }}
+      </section>
+
+      <section *ngIf="values.verdict != 'OK'">
+        <span>Passed test count: {{ values.passedTestCount }}</span>
+      </section>
+
+      <section class="user-status-actions">
+        <mat-chip selected>{{ values.programmingLanguage }}</mat-chip>
+        <mat-chip-list>
+          <mat-chip *ngFor="let item of values.problem.tags">
+            {{ item }}
+          </mat-chip>
+        </mat-chip-list>
+      </section>
+    </mat-expansion-panel>-->
+      <!--<mat-form-field>
+        <input matInput placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly>
+      </mat-form-field>
+      <mat-datepicker #picker></mat-datepicker>
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">End</button>
+      </mat-action-row>
+    </mat-expansion-panel>-->
+
+  </mat-accordion>
 </div>
 
 <div class="loader" *ngIf="showLoader">

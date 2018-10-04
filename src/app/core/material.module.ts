@@ -14,6 +14,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { MatListModule } from '@angular/material/list';
       MatBadgeModule,
       MatTabsModule,
       MatPaginatorModule,
-      MatListModule
+      MatListModule,
+      MatExpansionModule
     ],
     exports: [
       MatButtonModule,
@@ -48,7 +50,8 @@ import { MatListModule } from '@angular/material/list';
       MatBadgeModule,
       MatTabsModule,
       MatPaginatorModule,
-      MatListModule
+      MatListModule,
+      MatExpansionModule
     ]
 })
 

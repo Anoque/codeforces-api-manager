@@ -14,9 +14,10 @@
 .user-status-items {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  /*justify-content: space-evenly;
   align-items: flex-start;
-  flex-wrap: wrap;
+  flex-wrap: wrap;*/
 }
 
 #user-info-actions {
@@ -31,4 +32,30 @@
 
 .pagination {
   width: 100%;
+}
+
+.user-info-tab {
+  width: 100%;
+  display: flex;
+}
+
+.user-info-tab > section {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.rating-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-item > span {
+  display: inline-block;
+  width: 80%;
+}
+
+.rating-item > span:last-child {
+  width: 20%;
 }

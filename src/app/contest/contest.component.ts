@@ -16,10 +16,13 @@ export class ContestComponent implements OnInit {
   dataSource: ContestList;
   subscribers: Subscription;
   pageEvent: PageEvent;
-  itemsLength = 10;
+  itemsLength: number;
+  pageSizeOptions: number[];
 
   constructor(private netService: NetService, private dataService: DataService) {
     this.displayedColumns = ['id', 'name', 'phase', 'type'];
+    this.pageSizeOptions = [20, 50, 100];
+    this.itemsLength = this.pageSizeOptions[0];
     this.data = [];
     this.subscribers = new Subscription();
     this.dataSource = this.dataService.contestList;
@@ -40,8 +43,9 @@ export class ContestComponent implements OnInit {
   }
 
   setPage(event) {
-    if (event.pageSize !== this.itemsLength)
+    if (event.pageSize !== this.itemsLength) {
       this.itemsLength = event.pageSize;
+    }
 
     const start = event.pageIndex * this.itemsLength;
     const end = (start + this.itemsLength < this.dataSource.data.length) ? start + this.itemsLength : (this.dataSource.data.length + 1);

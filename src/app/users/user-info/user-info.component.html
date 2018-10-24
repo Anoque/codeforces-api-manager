@@ -82,8 +82,9 @@
       <button mat-button (click)="openSnackBar('Good evening! How do you do?', 'I\'m fine')" aria-label="Show an example snack-bar">Show message</button>
     </div>
     <div>
-      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('type')">Solved tasks by type</button>
-      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('language')">Solved tasks by programming language</button>
+      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('tags', getClientWidth())">Solved tasks by tags</button>
+      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('type', getClientWidth())">Solved tasks by type</button>
+      <button mat-flat-button color="warn" *ngIf="showStatus" (click)="openDialog('language', getClientWidth())">Solved tasks by programming language</button>
     </div>
   </mat-card-actions>
 </mat-card>
@@ -95,9 +96,6 @@
     [pageSize]="12"
     (page)="pageEvent = setPage($event)">
   </mat-paginator>
-  <!--<div *ngFor="let item of statusPage">
-    <app-user-status [data]="item"></app-user-status>
-  </div>-->
 
   <table mat-table [dataSource]="statusPage" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
@@ -142,52 +140,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedStatusColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedStatusColumns;"></tr>
   </table>
-
-  <mat-accordion>
-
-    <!--<div *ngFor="let item of statusPage">
-      <app-user-status [data]="item"></app-user-status>
-    </div>-->
-    <!--<mat-expansion-panel *ngFor="let values of statusPage">
-      <mat-expansion-panel-header class="expansion-header">
-        <mat-panel-title>
-          {{ values.problem.name }}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ values.problem.contestId + values.problem.index }}
-          <mat-icon>account_circle</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <section>
-        Time consumed: {{ values.timeConsumedMillis }}
-      </section>
-
-      <section *ngIf="values.verdict != 'OK'">
-        <span>Passed test count: {{ values.passedTestCount }}</span>
-      </section>
-
-      <section class="user-status-actions">
-        <mat-chip selected>{{ values.programmingLanguage }}</mat-chip>
-        <mat-chip-list>
-          <mat-chip *ngFor="let item of values.problem.tags">
-            {{ item }}
-          </mat-chip>
-        </mat-chip-list>
-      </section>
-    </mat-expansion-panel>-->
-      <!--<mat-form-field>
-        <input matInput placeholder="Date" [matDatepicker]="picker" (focus)="picker.open()" readonly>
-      </mat-form-field>
-      <mat-datepicker #picker></mat-datepicker>
-
-      <mat-action-row>
-        <button mat-button color="warn" (click)="prevStep()">Previous</button>
-        <button mat-button color="primary" (click)="nextStep()">End</button>
-      </mat-action-row>
-    </mat-expansion-panel>-->
-
-  </mat-accordion>
 </div>
 
 <div class="loader" *ngIf="showLoader">

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export class UsersService {
   user: any;
   status: any;
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   setUser(data: any): void {
     this.user = data;
@@ -19,7 +19,7 @@ export class UsersService {
     this.status = data;
   }
 
-  getStatus(): void {
+  getStatus(): any {
     return this.status;
   }
 }

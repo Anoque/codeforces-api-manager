@@ -66,16 +66,15 @@ export class UserInfoComponent implements OnInit {
   getStatus() {
     this.netService.get('http://codeforces.com/api/user.status?handle=' + this.name).subscribe((res: NetResponse) => {
       if (res.isSuccess()) {
-        this.status = res.getResponse();
         this.showStatus = true;
+        this.usersService.setStatus(res.getResponse());
+        this.status = this.usersService.getStatus();
         this.packRatingData();
-        this.usersService.setStatus(this.status);
         if (this.status.length <= this.itemsLength) {
           this.statusPage = this.status;
         } else {
           this.statusPage = this.status.slice(0, this.itemsLength);
         }
-        console.log(this.statusPage);
       }
     });
   }
@@ -86,10 +85,10 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  openDialog(type: string): void {
+  openDialog(type: string, width: number = 460): void {
     const dialogRef = this.dialog.open(UserStatisticsComponent, {
       data: { type: type },
-      width : '460px'
+      width : width + 'px'
     });
 
     /*
@@ -155,4 +154,7 @@ export class UserInfoComponent implements OnInit {
     this.status = temp;
   }
 
+  getClientWidth(): number {
+    return document.documentElement.offsetWidth / (document.documentElement.offsetWidth / document.documentElement.offsetHeight) - 200;
+  }
 }

@@ -16,14 +16,17 @@ export class UserStatisticsComponent implements OnInit {
   chart: any;
 
   chartsData: any;
-  chartHeight = 0;
+  chartHeight: number;
   showCharts = false;
   objectKeys = Object.keys;
+  chartWidth: number;
 
   showErrorMessage = false;
 
   constructor (public dialogRef: MatDialogRef<DialogData>, @Inject(MAT_DIALOG_DATA) public data: any, private userService: UsersService) {
     this.chartsData = [];
+    this.chartWidth = 400;
+    this.chartHeight = 400;
   }
 
   ngOnInit() {
@@ -37,6 +40,10 @@ export class UserStatisticsComponent implements OnInit {
         }
         case 'language': {
           this.setChartByLanguage();
+          break;
+        }
+        case 'tags': {
+          this.setChartByTags();
           break;
         }
         default: {
@@ -162,7 +169,7 @@ export class UserStatisticsComponent implements OnInit {
       }
     }
 
-    this.setChart(chartLabels, chartData, 'pie');
+    this.setChart(chartLabels, chartData, 'bar');
 
     const d = [];
     for (let i = 0; i < chartLabels.length; i++) {
@@ -170,11 +177,12 @@ export class UserStatisticsComponent implements OnInit {
     }
 
     this.chartsData.push(d);
-    this.chartHeight = 400;
+    this.chartWidth = document.documentElement.offsetWidth;
+    this.chartHeight = document.documentElement.offsetHeight;
     this.showCharts = true;
   }
 
-  setChartByLanguage() {
+  setChartByLanguage(): void {
     const chartData = [];
     const chartLabels = [];
 
@@ -190,7 +198,7 @@ export class UserStatisticsComponent implements OnInit {
       }
     }
 
-    this.setChart(chartLabels, chartData, 'pie');
+    this.setChart(chartLabels, chartData, 'bar');
 
     const d = [];
     for (let i = 0; i < chartLabels.length; i++) {
@@ -198,7 +206,45 @@ export class UserStatisticsComponent implements OnInit {
     }
 
     this.chartsData.push(d);
-    this.chartHeight = 400;
+    this.chartWidth = document.documentElement.offsetWidth;
+    this.chartHeight = document.documentElement.offsetHeight;
     this.showCharts = true;
+  }
+
+  setChartByTags(): void {
+    const chartData = [];
+    const chartLabels = [];
+    let problems = 0;
+    let trys = 0;
+
+    for (const item of this.userService.status) {
+      if (item.verdict === 'OK')
+        problems++;
+      trys++;
+      if (item.verdict === 'OK' && item.problem.tags.length > 0) {
+        item.problem.tags.forEach((tag: String) => {
+          const index = chartLabels.indexOf(tag);
+          if (index === -1) {
+            chartLabels.push(tag);
+            chartData.push(1);
+          } else {
+            chartData[index]++;
+          }
+        });
+      }
+    }
+
+    this.setChart(chartLabels, chartData, 'bar');
+
+    const d = [];
+    for (let i = 0; i < chartLabels.length; i++) {
+      d[chartLabels[i]] = chartData[i];
+    }
+
+    this.chartsData.push(d);
+    this.chartWidth = document.documentElement.offsetWidth / (document.documentElement.offsetWidth / document.documentElement.offsetHeight) - 200;
+    this.chartHeight = document.documentElement.clientHeight / 1.7;
+    this.showCharts = true;
+    console.log(problems + ' ' + trys);
   }
 }
